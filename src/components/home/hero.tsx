@@ -13,18 +13,20 @@ const badgeIcons = [Award, Globe, Sparkles, Crown, Users];
 export function HomeHero() {
   return (
     <section className="relative min-h-[100svh] flex items-center pt-32 pb-20 lg:pt-36 lg:pb-28 overflow-hidden dark text-white">
-      {/* Full-bleed backdrop portrait */}
+      {/* Full-bleed backdrop portrait — high-res, mobile-aware crop */}
       <Image
-        src="/images/rachel/rachel-portrait-3.jpg"
+        src="/images/rachel/rachel-portrait-1.jpg"
         alt=""
         fill
         priority
+        quality={90}
         sizes="100vw"
-        className="object-cover object-center scale-105"
+        className="object-cover object-[center_22%] sm:object-[center_top] lg:object-center lg:scale-105"
       />
-      {/* Deep, romantic gradient — keeps text legible without dulling the portrait */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink-950/95 via-ink-950/80 to-ink-950/30" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
+      {/* Mobile: vertical fade so face shows at top, text on darker bottom.
+          Desktop: horizontal fade for side-by-side editorial layout. */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ink-950/40 via-ink-950/75 to-ink-950 lg:bg-gradient-to-r lg:from-ink-950/95 lg:via-ink-950/80 lg:to-ink-950/30" />
+      <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
       <div className="absolute inset-0 grid-pattern opacity-20" />
 
       {/* Decorative blooms */}
