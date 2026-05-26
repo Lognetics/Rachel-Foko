@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FlowerMark } from '@/components/decorative';
+import { FloatingPetals } from '@/components/floating-petals';
 
 export function QuoteSection() {
   const words = [
@@ -21,6 +22,7 @@ export function QuoteSection() {
       />
       <div className="absolute inset-0 bg-gradient-to-br from-ink-950/92 via-ink-900/85 to-lavender-night/80" />
       <div className="absolute inset-0 grid-pattern opacity-20" />
+      <FloatingPetals count={12} tone="lavender" />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
         <motion.div

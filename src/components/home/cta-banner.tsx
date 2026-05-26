@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import { FlowerMark } from '@/components/decorative';
+import { FloatingPetals } from '@/components/floating-petals';
 
 export function CTABanner() {
   return (
@@ -20,6 +21,7 @@ export function CTABanner() {
       <div className="absolute inset-0 grid-pattern opacity-20" />
       <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-rose-warm/25 blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-gold-warm/25 blur-3xl pointer-events-none" />
+      <FloatingPetals count={14} tone="mixed" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ReactNode } from 'react';
+import { FloralPattern } from './floral-pattern';
 
 type Variant = 'light' | 'cream' | 'dark' | 'image';
 
@@ -16,6 +17,10 @@ type Props = {
   id?: string;
   /** Disable default padding (use when you need full bleed inside) */
   flush?: boolean;
+  /** Opt out of the floral wallpaper on light/cream variants */
+  noPattern?: boolean;
+  /** Override the floral pattern accent */
+  patternVariant?: 'rose' | 'lavender' | 'gold' | 'mixed';
 };
 
 const overlays: Record<NonNullable<Props['overlay']>, string> = {
@@ -34,20 +39,15 @@ export function Section({
   className,
   id,
   flush,
+  noPattern,
+  patternVariant,
 }: Props) {
   const padding = flush ? '' : 'py-20 sm:py-24 lg:py-32';
 
   if (variant === 'image' && image) {
     return (
       <section id={id} className={cn('relative overflow-hidden dark text-white', padding, className)}>
-        <Image
-          src={image}
-          alt={imageAlt}
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-          priority={false}
-        />
+        <Image src={image} alt={imageAlt} fill sizes="100vw" className="object-cover object-center" />
         <div className={cn('absolute inset-0', overlays[overlay])} />
         <div className="absolute inset-0 grid-pattern opacity-20" />
         <div className="relative">{children}</div>
@@ -57,25 +57,19 @@ export function Section({
 
   if (variant === 'dark') {
     return (
-      <section
-        id={id}
-        className={cn('relative overflow-hidden dark bg-ink-950 text-white', padding, className)}
-      >
+      <section id={id} className={cn('relative overflow-hidden dark bg-ink-950 text-white', padding, className)}>
         {children}
       </section>
     );
   }
 
-  if (variant === 'cream') {
-    return (
-      <section id={id} className={cn('relative overflow-hidden bg-cream-100 text-ink-950', padding, className)}>
-        {children}
-      </section>
-    );
-  }
+  const isCream = variant === 'cream';
+  const bg = isCream ? 'bg-cream-100' : 'bg-white';
+  const defaultPattern: NonNullable<Props['patternVariant']> = isCream ? 'gold' : 'rose';
 
   return (
-    <section id={id} className={cn('relative overflow-hidden bg-white text-ink-950', padding, className)}>
+    <section id={id} className={cn('relative overflow-hidden text-ink-950', bg, padding, className)}>
+      {!noPattern && <FloralPattern variant={patternVariant ?? defaultPattern} density="medium" />}
       {children}
     </section>
   );

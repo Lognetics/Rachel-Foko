@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { Award, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getAccent } from '@/lib/accents';
 
 type Achievement = {
   id: string;
@@ -15,14 +16,9 @@ type Achievement = {
   accent: string;
 };
 
-const accentMap: Record<string, string> = {
-  gold: 'from-gold-soft via-gold-warm to-gold-deep',
-  lavender: 'from-lavender-mist via-lavender-deep to-lavender-night',
-  rose: 'from-rose-blush via-rose-dust to-rose-gold',
-};
-
 export function AchievementCard({ achievement, index }: { achievement: Achievement; index: number }) {
   const [open, setOpen] = useState(false);
+  const accent = getAccent(index);
 
   return (
     <>
@@ -32,26 +28,37 @@ export function AchievementCard({ achievement, index }: { achievement: Achieveme
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.6, delay: (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
         onClick={() => setOpen(true)}
-        className="group relative w-full text-left rounded-3xl glass-strong p-8 lift overflow-hidden"
+        className={cn(
+          'group relative w-full text-left rounded-3xl bg-white/8 backdrop-blur-md border border-white/10 p-8 lift overflow-hidden transition-all duration-500',
+          accent.hoverBorder
+        )}
       >
-        <div className={cn('absolute -top-12 -right-12 h-40 w-40 rounded-full bg-gradient-to-br opacity-30 blur-2xl transition-opacity group-hover:opacity-60', accentMap[achievement.accent])} />
+        {/* Color halo on hover */}
+        <div
+          className={cn(
+            'absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-transparent to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700',
+            accent.haloFrom, accent.haloTo
+          )}
+        />
+        {/* Subtle tint sweep */}
+        <div className={cn('absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500', accent.hoverTint)} />
 
         <div className="relative flex items-start justify-between mb-6">
-          <div className={cn('h-12 w-12 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white shadow-lg', accentMap[achievement.accent])}>
+          <div className={cn('h-12 w-12 rounded-2xl flex items-center justify-center text-white shadow-lg', accent.iconBg)}>
             <Award className="h-5 w-5" />
           </div>
-          <span className="text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]">{achievement.year}</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-white/60">{achievement.year}</span>
         </div>
 
         <div className="relative">
-          <div className="text-[10px] uppercase tracking-[0.25em] text-gold-warm mb-2">{achievement.category}</div>
-          <h3 className="font-display text-2xl leading-tight mb-2 group-hover:text-gold-warm transition">{achievement.title}</h3>
-          <p className="text-sm text-[rgb(var(--muted))] line-clamp-2">{achievement.subtitle}</p>
+          <div className={cn('text-[10px] uppercase tracking-[0.3em] mb-2', accent.textAccent)}>{achievement.category}</div>
+          <h3 className="font-display text-2xl leading-tight mb-2 text-white group-hover:text-white transition">{achievement.title}</h3>
+          <p className="text-sm text-white/65 line-clamp-2 font-light">{achievement.subtitle}</p>
         </div>
 
-        <div className="relative mt-6 inline-flex items-center gap-2 text-xs font-medium text-[rgb(var(--fg))] opacity-70 group-hover:opacity-100 transition">
+        <div className="relative mt-6 inline-flex items-center gap-2 text-xs font-medium text-white opacity-70 group-hover:opacity-100 transition">
           <span>Read story</span>
-          <span className="h-px w-6 bg-current transition-all group-hover:w-10" />
+          <span className="h-px w-6 bg-current transition-all group-hover:w-12" />
         </div>
       </motion.button>
 
@@ -64,29 +71,29 @@ export function AchievementCard({ achievement, index }: { achievement: Achieveme
             className="fixed inset-0 z-[80] grid place-items-center p-4"
             onClick={() => setOpen(false)}
           >
-            <div className="absolute inset-0 bg-ink-950/70 backdrop-blur-xl" />
+            <div className="absolute inset-0 bg-ink-950/80 backdrop-blur-xl" />
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative max-w-2xl w-full rounded-3xl glass-strong p-8 sm:p-12"
+              className="relative max-w-2xl w-full rounded-3xl bg-white border border-blush-soft p-8 sm:p-12 shadow-[0_30px_80px_-20px_rgba(91,75,138,0.35)]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close"
-                className="absolute top-4 right-4 h-10 w-10 rounded-full glass grid place-items-center hover:bg-white/30 transition"
+                className="absolute top-4 right-4 h-10 w-10 rounded-full bg-cream-100 hover:bg-blush-soft grid place-items-center transition"
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4 text-ink-950" />
               </button>
-              <div className={cn('inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br items-center justify-center text-white shadow-xl mb-6', accentMap[achievement.accent])}>
+              <div className={cn('inline-flex h-14 w-14 rounded-2xl items-center justify-center text-white shadow-xl mb-6', accent.iconBg)}>
                 <Award className="h-6 w-6" />
               </div>
-              <div className="text-xs uppercase tracking-[0.3em] text-gold-warm mb-3">{achievement.category} · {achievement.year}</div>
-              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-3">{achievement.title}</h3>
-              <p className="text-base text-[rgb(var(--muted))] italic mb-6">{achievement.subtitle}</p>
-              <p className="text-base leading-relaxed">{achievement.description}</p>
+              <div className={cn('text-[10px] uppercase tracking-[0.3em] mb-3', accent.textAccent)}>{achievement.category} · {achievement.year}</div>
+              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-3 text-ink-950">{achievement.title}</h3>
+              <p className="text-base text-ink-500 italic mb-6">{achievement.subtitle}</p>
+              <p className="text-base leading-relaxed text-ink-700">{achievement.description}</p>
             </motion.div>
           </motion.div>
         )}

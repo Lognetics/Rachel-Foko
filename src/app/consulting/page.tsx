@@ -9,6 +9,8 @@ import { CTABanner } from '@/components/home/cta-banner';
 import { Marquee } from '@/components/marquee';
 import { Eyebrow, FlowerMark } from '@/components/decorative';
 import { SERVICES, CLIENT_LOGOS, SITE } from '@/lib/content';
+import { getAccent } from '@/lib/accents';
+import { cn } from '@/lib/utils';
 import { Target, Palette, Globe, Smartphone, Sparkles, Cpu, BarChart3, Crown, ArrowUpRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -78,15 +80,24 @@ export default function ConsultingPage() {
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {SERVICES.map((s, i) => {
               const Icon = iconMap[s.icon] ?? Sparkles;
+              const accent = getAccent(i);
               return (
-                <Reveal key={s.title} delay={(i % 4) * 0.08} className="group relative rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-7 lift overflow-hidden">
-                  <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-gradient-to-br from-rose-warm/0 to-gold-warm/0 group-hover:from-rose-warm/30 group-hover:to-gold-warm/30 blur-2xl transition" />
+                <Reveal
+                  key={s.title}
+                  delay={(i % 4) * 0.08}
+                  className={cn(
+                    'group relative rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-7 lift overflow-hidden transition-all duration-500',
+                    accent.hoverBorder
+                  )}
+                >
+                  <div className={cn('absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-transparent to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700', accent.haloFrom, accent.haloTo)} />
                   <div className="relative">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white shadow-lg mb-6">
+                    <div className={cn('h-12 w-12 rounded-2xl grid place-items-center text-white shadow-lg mb-6', accent.iconBg)}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-display text-xl leading-tight mb-3 text-white">{s.title}</h3>
                     <p className="text-sm text-white/70 leading-relaxed font-light">{s.description}</p>
+                    <div className={cn('mt-4 h-px w-10 transition-all duration-500 group-hover:w-16', 'bg-current', accent.textAccent)} />
                   </div>
                 </Reveal>
               );

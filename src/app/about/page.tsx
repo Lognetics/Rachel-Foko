@@ -7,6 +7,8 @@ import { Section } from '@/components/section';
 import { CTABanner } from '@/components/home/cta-banner';
 import { Eyebrow, FlowerMark, FloralCorner } from '@/components/decorative';
 import { TIMELINE, VALUES } from '@/lib/content';
+import { getAccent } from '@/lib/accents';
+import { cn } from '@/lib/utils';
 import { Sparkles, Heart, Compass, Globe, Crown } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -161,11 +163,24 @@ export default function AboutPage() {
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {VALUES.map((v, i) => {
               const Icon = valueIcons[i] ?? Sparkles;
+              const accent = getAccent(i);
               return (
-                <Reveal key={v.title} delay={i * 0.08} className="rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-8 lift">
-                  <Icon className="h-7 w-7 text-gold-warm mb-5" />
-                  <h3 className="font-display text-xl mb-3 text-white">{v.title}</h3>
-                  <p className="text-sm text-white/70 leading-relaxed font-light">{v.description}</p>
+                <Reveal
+                  key={v.title}
+                  delay={i * 0.08}
+                  className={cn(
+                    'group relative rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-8 lift overflow-hidden transition-all duration-500',
+                    accent.hoverBorder
+                  )}
+                >
+                  <div className={cn('absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 bg-gradient-to-br from-transparent to-transparent', accent.haloFrom, accent.haloTo)} />
+                  <div className="relative">
+                    <div className={cn('h-12 w-12 rounded-2xl flex items-center justify-center text-white shadow-lg mb-5', accent.iconBg)}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-display text-xl mb-3 text-white">{v.title}</h3>
+                    <p className="text-sm text-white/70 leading-relaxed font-light">{v.description}</p>
+                  </div>
                 </Reveal>
               );
             })}

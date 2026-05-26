@@ -6,6 +6,8 @@ import { SectionHeading } from '@/components/section-heading';
 import { Section } from '@/components/section';
 import { SPEAKING_TOPICS, EVENTS } from '@/lib/content';
 import { BookingForm } from '@/components/booking-form';
+import { getAccent } from '@/lib/accents';
+import { cn } from '@/lib/utils';
 import { Crown, Sparkles, Users, Cpu, Rocket, Globe, MapPin, Calendar } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -93,14 +95,24 @@ export default function SpeakingPage() {
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {SPEAKING_TOPICS.map((t, i) => {
               const Icon = iconMap[t.icon] ?? Sparkles;
+              const accent = getAccent(i);
               return (
-                <Reveal key={t.title} delay={(i % 3) * 0.08} className="group relative rounded-3xl bg-white p-8 lift overflow-hidden border border-blush-soft/60 shadow-[0_10px_40px_-15px_rgba(91,75,138,0.18)]">
-                  <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-gradient-to-br from-rose-warm/0 to-gold-warm/0 group-hover:from-rose-warm/40 group-hover:to-gold-warm/30 blur-2xl transition" />
+                <Reveal
+                  key={t.title}
+                  delay={(i % 3) * 0.08}
+                  className={cn(
+                    'group relative rounded-3xl bg-white p-8 lift overflow-hidden border border-blush-soft/60 shadow-[0_10px_40px_-15px_rgba(91,75,138,0.18)] transition-all duration-500',
+                    accent.hoverBorder
+                  )}
+                >
+                  <div className={cn('absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-transparent to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700', accent.haloFrom, accent.haloTo)} />
+                  <div className={cn('absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500', accent.hoverTint)} />
                   <div className="relative">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white mb-6 shadow-lg">
+                    <div className={cn('h-12 w-12 rounded-2xl grid place-items-center text-white mb-6 shadow-lg', accent.iconBg)}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-display text-xl text-ink-950">{t.title}</h3>
+                    <div className={cn('mt-4 h-px w-12 transition-all duration-500 group-hover:w-20', 'bg-current', accent.textAccent)} />
                   </div>
                 </Reveal>
               );

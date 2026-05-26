@@ -6,6 +6,8 @@ import { Section } from '@/components/section';
 import { ACHIEVEMENTS } from '@/lib/content';
 import { CTABanner } from '@/components/home/cta-banner';
 import { Eyebrow } from '@/components/decorative';
+import { getAccent } from '@/lib/accents';
+import { cn } from '@/lib/utils';
 import { Award, Trophy, Star, Globe } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -37,11 +39,24 @@ export default function AchievementsPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {honors.map((h, i) => {
               const Icon = h.icon;
+              const accent = getAccent(i);
               return (
-                <Reveal key={h.title} delay={i * 0.08} className="rounded-2xl bg-white p-6 group hover:shadow-[0_15px_50px_-20px_rgba(91,75,138,0.25)] transition border border-blush-soft/60">
-                  <Icon className="h-7 w-7 text-gold-warm mb-4" />
-                  <div className="font-display text-lg leading-tight text-ink-950">{h.title}</div>
-                  <div className="text-xs text-ink-500 mt-2 leading-relaxed">{h.detail}</div>
+                <Reveal
+                  key={h.title}
+                  delay={i * 0.08}
+                  className={cn(
+                    'group relative rounded-2xl bg-white p-6 hover:shadow-[0_15px_50px_-20px_rgba(91,75,138,0.3)] transition-all duration-500 border border-blush-soft/60 overflow-hidden',
+                    accent.hoverBorder
+                  )}
+                >
+                  <div className={cn('absolute -top-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-transparent to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700', accent.haloFrom, accent.haloTo)} />
+                  <div className="relative">
+                    <div className={cn('inline-flex h-11 w-11 rounded-2xl items-center justify-center text-white shadow-lg mb-4', accent.iconBg)}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div className="font-display text-lg leading-tight text-ink-950">{h.title}</div>
+                    <div className="text-xs text-ink-500 mt-2 leading-relaxed">{h.detail}</div>
+                  </div>
                 </Reveal>
               );
             })}

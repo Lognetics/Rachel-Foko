@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Award, Sparkles, Globe, Crown, Users } from 'lucide-react';
 import { HERO_BADGES } from '@/lib/content';
 import { FlowerMark } from '@/components/decorative';
+import { FloatingPetals } from '@/components/floating-petals';
 
 const badgeIcons = [Award, Globe, Sparkles, Crown, Users];
 
@@ -29,6 +30,9 @@ export function HomeHero() {
       {/* Decorative blooms */}
       <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-rose-warm/25 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-lavender-deep/30 blur-3xl pointer-events-none" />
+
+      {/* Drifting petals */}
+      <FloatingPetals count={18} tone="mixed" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center w-full">
         {/* Copy */}
