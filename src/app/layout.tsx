@@ -6,7 +6,6 @@ import { Nav } from '@/components/nav';
 import { Footer } from '@/components/footer';
 import { ThemeProvider } from '@/components/theme-provider';
 import { PageTransition } from '@/components/page-transition';
-import { ParticleField } from '@/components/particle-field';
 import { Loader } from '@/components/loader';
 
 const sans = Inter({
@@ -50,18 +49,15 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Rachel Foko' }],
   creator: 'Rachel Foko',
-  icons: {
-    icon: '/favicon.svg',
-  },
+  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${display.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+      <body className="font-sans antialiased bg-white text-ink-950">
         <ThemeProvider>
           <Loader />
-          <ParticleField />
           <Nav />
           <PageTransition>
             <main className="relative">{children}</main>

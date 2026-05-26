@@ -2,48 +2,67 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { STATS } from '@/lib/content';
 import { Reveal } from '@/components/reveal';
-import { PortraitImage } from '@/components/portrait-image';
+import { Section } from '@/components/section';
+import { Eyebrow, FlowerMark, FloralCorner } from '@/components/decorative';
 
 export function AboutPreview() {
   return (
-    <section className="relative py-24 lg:py-32">
+    <Section variant="light" className="bg-white">
+      <FloralCorner position="tl" className="hidden md:block" />
+      <FloralCorner position="br" className="hidden md:block" />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <Reveal className="lg:col-span-5 relative">
-          <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lavender-mist to-rose-blush dark:from-lavender-night/30 dark:to-ink-800 p-1">
-              <div className="relative h-full w-full rounded-3xl overflow-hidden">
-                <PortraitImage
+          <div className="relative max-w-md mx-auto lg:mx-0">
+            {/* Halo */}
+            <div className="absolute -inset-8 bg-gradient-to-br from-rose-warm/40 via-blush-soft to-lavender-deep/30 blur-3xl rounded-full" />
+
+            {/* Curved feminine frame */}
+            <div className="relative curved-frame aspect-[4/5] bg-gradient-to-br from-gold-soft via-rose-warm to-lavender-deep p-[3px]">
+              <div className="relative curved-frame h-full w-full overflow-hidden">
+                <Image
                   src="/images/rachel/rachel-portrait-2.jpg"
                   alt="Rachel Foko"
+                  fill
                   sizes="(max-width: 1024px) 80vw, 35vw"
+                  className="object-cover"
                 />
               </div>
             </div>
-            <div className="absolute -bottom-6 -right-6 lg:-right-12 rounded-2xl glass-strong p-6 max-w-[240px] shadow-2xl">
-              <div className="text-xs uppercase tracking-[0.25em] text-gold-warm mb-2">Founder & CEO</div>
-              <div className="font-display text-xl leading-tight">Rachel Consulting</div>
-              <div className="text-xs text-[rgb(var(--muted))] mt-2">Building businesses for the future.</div>
-            </div>
+
+            {/* Floating credential card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="absolute -bottom-6 -right-4 lg:-right-12 rounded-2xl bg-white p-6 max-w-[240px] shadow-[0_20px_60px_-15px_rgba(91,75,138,0.25)] border border-blush-soft"
+            >
+              <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-gold-warm mb-2">
+                <FlowerMark size={10} />
+                Founder & CEO
+              </div>
+              <div className="font-display text-xl leading-tight text-ink-950">Rachel Consulting</div>
+              <div className="text-xs text-ink-500 mt-2">Building businesses for the future.</div>
+            </motion.div>
           </div>
         </Reveal>
 
         <div className="lg:col-span-7">
           <Reveal>
-            <div className="text-xs uppercase tracking-[0.3em] text-[rgb(var(--muted))] mb-4 flex items-center gap-3">
-              <span className="h-px w-8 bg-gradient-to-r from-transparent to-gold-warm" />
-              About Rachel
-            </div>
+            <Eyebrow className="text-ink-500 mb-5">About Rachel</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
-              A legacy of <span className="gradient-text">leadership</span> and innovation.
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
+              A legacy of <span className="italic-accent">leadership</span> & innovation.
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <div className="mt-8 space-y-5 text-[rgb(var(--muted))] leading-relaxed text-base sm:text-lg">
+            <div className="mt-8 space-y-5 text-ink-500 leading-relaxed text-base sm:text-lg">
               <p>
                 Rachel Foko is more than a consultant or entrepreneur — she is a visionary committed
                 to creating sustainable impact across industries and nations. As the founder and CEO
@@ -52,9 +71,7 @@ export function AboutPreview() {
               </p>
               <p>
                 Her influence spans entrepreneurship, governance, women empowerment, leadership
-                development, and global technology advocacy. Through partnerships with organizations
-                worldwide, Rachel continues to drive meaningful change while helping businesses and
-                individuals unlock their full potential.
+                development, and global technology advocacy.
               </p>
             </div>
           </Reveal>
@@ -62,9 +79,9 @@ export function AboutPreview() {
           <Reveal delay={0.3}>
             <Link
               href="/about"
-              className="group mt-8 inline-flex items-center gap-2 text-sm font-medium"
+              className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-ink-950"
             >
-              <span className="border-b border-current pb-1">Read full biography</span>
+              <span className="border-b border-gold-warm pb-1">Read full biography</span>
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </Reveal>
@@ -81,7 +98,7 @@ export function AboutPreview() {
                 className="text-center sm:text-left"
               >
                 <div className="font-display text-3xl sm:text-4xl gradient-text">{s.value}</div>
-                <div className="text-[11px] uppercase tracking-[0.15em] text-[rgb(var(--muted))] mt-2">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-ink-500 mt-2">
                   {s.label}
                 </div>
               </motion.div>
@@ -89,6 +106,6 @@ export function AboutPreview() {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import { PageHeader } from '@/components/page-header';
 import { Reveal } from '@/components/reveal';
+import { Section } from '@/components/section';
 import { BookingForm } from '@/components/booking-form';
+import { Eyebrow, FlowerMark } from '@/components/decorative';
 import { Mail, MapPin, Globe, Linkedin, Instagram, Twitter, Youtube, Sparkles } from 'lucide-react';
 import { SITE } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Contact — Let\'s Connect',
-  description: 'Reach Rachel Foko for speaking invitations, strategic partnerships, media interviews, brand collaborations, consulting opportunities, and mentorship initiatives.',
+  description: 'Reach Rachel Foko for speaking invitations, partnerships, media interviews, brand collaborations, consulting, and mentorship.',
 };
 
 const opportunities = [
@@ -26,17 +28,20 @@ export default function ContactPage() {
         eyebrow="Connect"
         title="Let's Connect"
         intro="Whether for partnerships, speaking engagements, consulting, media inquiries, or collaborations — Rachel Foko would love to hear from you."
+        image="/images/rachel/rachel-portrait-2.jpg"
+        overlay="gold"
       />
 
-      <section className="relative py-12 lg:py-20">
+      {/* Form + info — light */}
+      <Section variant="light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
             <Reveal>
-              <div className="text-xs uppercase tracking-[0.3em] text-[rgb(var(--muted))] mb-4">Open to</div>
+              <Eyebrow className="text-ink-500 mb-5">Open to</Eyebrow>
               <h2 className="font-display text-3xl sm:text-4xl leading-tight">
-                Bring your <span className="gradient-text">vision</span> to the conversation.
+                Bring your <span className="italic-accent">vision</span> to the conversation.
               </h2>
-              <p className="mt-6 text-[rgb(var(--muted))] leading-relaxed">
+              <p className="mt-6 text-ink-500 leading-relaxed">
                 Rachel is open to a range of collaborations — from boardroom advisory to global keynotes. Share your
                 story and intention; her team will respond within 2 business days.
               </p>
@@ -45,40 +50,40 @@ export default function ContactPage() {
             <Reveal delay={0.15}>
               <ul className="mt-8 space-y-3">
                 {opportunities.map((o) => (
-                  <li key={o} className="flex items-center gap-3 text-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-gold-warm to-lavender-deep" />
+                  <li key={o} className="flex items-center gap-3 text-sm text-ink-700">
+                    <FlowerMark size={10} />
                     {o}
                   </li>
                 ))}
               </ul>
             </Reveal>
 
-            <Reveal delay={0.25} className="mt-12 rounded-3xl glass-strong p-8 space-y-5">
+            <Reveal delay={0.25} className="mt-12 rounded-3xl bg-cream-100 border border-blush-soft/60 p-8 space-y-5 shadow-[0_15px_50px_-20px_rgba(91,75,138,0.15)]">
               <a href={`mailto:${SITE.email}`} className="flex items-center gap-4 group">
-                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-lavender-deep to-gold-warm grid place-items-center text-white shadow-lg">
+                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white shadow-lg">
                   <Mail className="h-4 w-4" />
                 </span>
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]">Email</div>
-                  <div className="font-medium group-hover:text-gold-warm transition">{SITE.email}</div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-ink-500">Email</div>
+                  <div className="font-medium text-ink-950 group-hover:text-gold-warm transition">{SITE.email}</div>
                 </div>
               </a>
               <a href={SITE.consultingUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
-                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-lavender-deep to-gold-warm grid place-items-center text-white shadow-lg">
+                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white shadow-lg">
                   <Globe className="h-4 w-4" />
                 </span>
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]">Rachel Consulting</div>
-                  <div className="font-medium group-hover:text-gold-warm transition">rachelconsultings.com</div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-ink-500">Rachel Consulting</div>
+                  <div className="font-medium text-ink-950 group-hover:text-gold-warm transition">rachelconsultings.com</div>
                 </div>
               </a>
               <div className="flex items-center gap-4">
-                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-lavender-deep to-gold-warm grid place-items-center text-white shadow-lg">
+                <span className="h-11 w-11 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white shadow-lg">
                   <MapPin className="h-4 w-4" />
                 </span>
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-[rgb(var(--muted))]">Reach</div>
-                  <div className="font-medium">Global · Available worldwide</div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-ink-500">Reach</div>
+                  <div className="font-medium text-ink-950">Global · Available worldwide</div>
                 </div>
               </div>
             </Reveal>
@@ -95,9 +100,9 @@ export default function ContactPage() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-11 w-11 rounded-full grid place-items-center glass hover:bg-white/40 dark:hover:bg-white/10 transition hover:-translate-y-0.5"
+                  className="h-11 w-11 rounded-full grid place-items-center bg-white border border-blush-soft hover:border-gold-warm hover:-translate-y-0.5 transition shadow-sm"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4 text-ink-700" />
                 </a>
               ))}
             </Reveal>
@@ -107,20 +112,19 @@ export default function ContactPage() {
             <BookingForm />
           </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Closing statement */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 aurora opacity-50" />
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      {/* Closing — image overlay */}
+      <Section variant="image" image="/images/rachel/rachel-event-8.jpg" overlay="lavender">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
             <Sparkles className="h-8 w-8 text-gold-warm mx-auto mb-6" />
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight">
-              Together, let's create <span className="gradient-text">innovation, transformation</span>, and global impact that inspires generations to come.
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight text-white">
+              Together, let's create <span className="italic-accent">innovation, transformation</span>, and global impact that inspires generations to come.
             </h2>
           </Reveal>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

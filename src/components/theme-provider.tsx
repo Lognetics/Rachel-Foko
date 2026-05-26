@@ -1,35 +1,14 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-type Theme = 'light' | 'dark';
-
-const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
-  theme: 'dark',
-  toggle: () => {},
-});
-
+/**
+ * Light-only base. Dark/image variants are opt-in per <Section />.
+ * Kept as a wrapper so we can re-enable a global toggle later without re-wiring.
+ */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    const stored = localStorage.getItem('theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = stored ?? (prefersDark ? 'dark' : 'light');
-    setTheme(initial);
-    setMounted(true);
+    document.documentElement.classList.remove('dark');
   }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem('theme', theme);
-  }, [theme, mounted]);
-
-  const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
-
-  return <ThemeContext.Provider value={{ theme, toggle }}>{children}</ThemeContext.Provider>;
+  return <>{children}</>;
 }
-
-export const useTheme = () => useContext(ThemeContext);

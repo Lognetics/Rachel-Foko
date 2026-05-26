@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { PageHeader } from '@/components/page-header';
 import { Reveal } from '@/components/reveal';
 import { SectionHeading } from '@/components/section-heading';
+import { Section } from '@/components/section';
 import { CTABanner } from '@/components/home/cta-banner';
 import { Marquee } from '@/components/marquee';
-import { PortraitImage } from '@/components/portrait-image';
+import { Eyebrow, FlowerMark } from '@/components/decorative';
 import { SERVICES, CLIENT_LOGOS, SITE } from '@/lib/content';
 import { Target, Palette, Globe, Smartphone, Sparkles, Cpu, BarChart3, Crown, ArrowUpRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Rachel Consulting — Building Businesses for the Future',
-  description: 'Rachel Consulting is a modern advisory firm specializing in business strategy, branding, AI, digital transformation, and app development.',
+  description: 'Rachel Consulting: business strategy, branding, AI, digital transformation, web & app development.',
 };
 
-const iconMap: Record<string, any> = {
-  Target, Palette, Globe, Smartphone, Sparkles, Cpu, BarChart3, Crown,
-};
+const iconMap: Record<string, any> = { Target, Palette, Globe, Smartphone, Sparkles, Cpu, BarChart3, Crown };
 
 export default function ConsultingPage() {
   return (
@@ -24,18 +24,20 @@ export default function ConsultingPage() {
       <PageHeader
         eyebrow="Rachel Consulting"
         title="Building Businesses for the Future"
-        intro="A modern consulting firm focused on innovation, digital transformation, and sustainable business growth — helping organizations unlock measurable results through strategic solutions tailored to modern market demands."
+        intro="A modern consulting firm focused on innovation, digital transformation, and sustainable business growth — helping organizations unlock measurable results through strategic solutions."
+        image="/images/rachel/rachel-portrait-4.jpg"
+        overlay="lavender"
       />
 
-      {/* Intro split */}
-      <section className="relative py-20 lg:py-28">
+      {/* Intro split — light */}
+      <Section variant="light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <Reveal>
-            <div className="text-xs uppercase tracking-[0.3em] text-[rgb(var(--muted))] mb-4">Our approach</div>
-            <h2 className="font-display text-4xl sm:text-5xl leading-[1.05] tracking-tight">
-              Creativity meets <span className="gradient-text">technology</span>.
+            <Eyebrow className="text-ink-500 mb-5">Our approach</Eyebrow>
+            <h2 className="font-display text-4xl sm:text-5xl leading-[1.02] tracking-tight">
+              Creativity meets <span className="italic-accent">technology</span>.
             </h2>
-            <p className="mt-8 text-[rgb(var(--muted))] leading-relaxed text-base sm:text-lg">
+            <p className="mt-8 text-ink-500 leading-relaxed text-base sm:text-lg">
               Founded by Rachel Foko, Rachel Consulting helps businesses and organizations unlock growth through
               strategic solutions tailored to modern market demands. The company combines creativity, innovation, and
               technology to help businesses stay competitive and future-ready.
@@ -52,83 +54,87 @@ export default function ConsultingPage() {
           </Reveal>
           <Reveal delay={0.2}>
             <div className="relative aspect-[4/5] max-w-md mx-auto">
-              <div className="absolute -inset-4 bg-gradient-to-br from-lavender-deep/30 via-rose-dust/20 to-gold-warm/30 blur-3xl" />
-              <div className="relative h-full w-full rounded-3xl overflow-hidden bg-gradient-to-br from-lavender-deep via-ink-900 to-ink-950 p-[1.5px]">
-                <div className="h-full w-full rounded-3xl overflow-hidden">
-                  <PortraitImage src="/images/rachel/rachel-portrait-4.jpg" alt="Rachel at work" sizes="(max-width: 1024px) 80vw, 35vw" />
+              <div className="absolute -inset-6 bg-gradient-to-br from-rose-warm/40 via-blush-soft to-lavender-deep/30 blur-3xl rounded-full" />
+              <div className="relative curved-frame-soft h-full w-full bg-gradient-to-br from-lavender-deep via-gold-warm to-rose-warm p-[3px]">
+                <div className="h-full w-full curved-frame-soft overflow-hidden">
+                  <Image src="/images/rachel/rachel-portrait-4.jpg" alt="Rachel at work" fill sizes="(max-width: 1024px) 80vw, 35vw" className="object-cover" />
                 </div>
               </div>
             </div>
           </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Services grid */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 aurora opacity-40" />
+      {/* Services grid — dark */}
+      <Section variant="dark">
+        <div className="absolute inset-0 aurora opacity-40 pointer-events-none" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             center
             eyebrow="What we do"
-            title={<>Services built for the <span className="gradient-text">modern era</span>.</>}
-            description="A full-spectrum offering, from foundational strategy to bespoke AI integration — tailored to the ambitions of forward-thinking organizations."
+            title={<>Services built for the <span className="italic-accent">modern era</span>.</>}
+            description="A full-spectrum offering, from foundational strategy to bespoke AI integration — tailored to forward-thinking organizations."
           />
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {SERVICES.map((s, i) => {
               const Icon = iconMap[s.icon] ?? Sparkles;
               return (
-                <Reveal key={s.title} delay={(i % 4) * 0.08} className="group relative rounded-3xl glass-strong p-7 lift overflow-hidden">
-                  <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-gradient-to-br from-lavender-deep/30 to-gold-warm/30 blur-2xl opacity-40 group-hover:opacity-80 transition" />
+                <Reveal key={s.title} delay={(i % 4) * 0.08} className="group relative rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 p-7 lift overflow-hidden">
+                  <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-gradient-to-br from-rose-warm/0 to-gold-warm/0 group-hover:from-rose-warm/30 group-hover:to-gold-warm/30 blur-2xl transition" />
                   <div className="relative">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-lavender-deep to-gold-warm grid place-items-center text-white shadow-lg mb-6">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep grid place-items-center text-white shadow-lg mb-6">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <h3 className="font-display text-xl leading-tight mb-3">{s.title}</h3>
-                    <p className="text-sm text-[rgb(var(--muted))] leading-relaxed">{s.description}</p>
+                    <h3 className="font-display text-xl leading-tight mb-3 text-white">{s.title}</h3>
+                    <p className="text-sm text-white/70 leading-relaxed font-light">{s.description}</p>
                   </div>
                 </Reveal>
               );
             })}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Mission / vision */}
-      <section className="relative py-24 lg:py-32">
+      {/* Mission / Vision — cream */}
+      <Section variant="cream">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8">
-          <Reveal className="rounded-3xl glass-strong p-10 lg:p-12 relative overflow-hidden">
-            <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full bg-gradient-to-br from-gold-soft to-gold-deep opacity-30 blur-3xl" />
+          <Reveal className="rounded-3xl bg-white p-10 lg:p-12 relative overflow-hidden border border-blush-soft/60 shadow-[0_20px_60px_-20px_rgba(91,75,138,0.18)]">
+            <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full bg-gradient-to-br from-gold-soft to-gold-deep opacity-25 blur-3xl" />
             <div className="relative">
-              <div className="text-xs uppercase tracking-[0.3em] text-gold-warm mb-4">Mission</div>
-              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-5">
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.35em] text-gold-warm mb-4">
+                <FlowerMark size={12} /> Mission
+              </div>
+              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-5 text-ink-950">
                 Empower businesses to thrive in the future of work.
               </h3>
-              <p className="text-[rgb(var(--muted))] leading-relaxed">
+              <p className="text-ink-500 leading-relaxed">
                 We partner with organizations to design strategies, brands, and digital products that compete on a
                 global stage — uniting human-centered design, rigorous strategy, and intelligent technology.
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.1} className="rounded-3xl glass-strong p-10 lg:p-12 relative overflow-hidden">
-            <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full bg-gradient-to-br from-lavender-deep to-lavender-night opacity-30 blur-3xl" />
+          <Reveal delay={0.1} className="rounded-3xl bg-white p-10 lg:p-12 relative overflow-hidden border border-blush-soft/60 shadow-[0_20px_60px_-20px_rgba(91,75,138,0.18)]">
+            <div className="absolute -top-20 -right-20 h-48 w-48 rounded-full bg-gradient-to-br from-rose-warm to-lavender-deep opacity-25 blur-3xl" />
             <div className="relative">
-              <div className="text-xs uppercase tracking-[0.3em] text-lavender-deep mb-4">Vision</div>
-              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-5">
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.35em] text-lavender-night mb-4">
+                <FlowerMark size={12} /> Vision
+              </div>
+              <h3 className="font-display text-3xl sm:text-4xl leading-tight mb-5 text-ink-950">
                 A world where innovation lifts every community.
               </h3>
-              <p className="text-[rgb(var(--muted))] leading-relaxed">
+              <p className="text-ink-500 leading-relaxed">
                 Rachel Consulting envisions a future where AI, design, and entrepreneurship become accessible tools for
                 transformation — bridging continents, generations, and industries.
               </p>
             </div>
           </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Clients marquee */}
-      <section className="relative py-20 overflow-hidden border-y border-[rgb(var(--border))]">
+      {/* Clients marquee — light */}
+      <Section variant="light" className="py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-xs uppercase tracking-[0.4em] text-[rgb(var(--muted))] mb-10">
+          <div className="text-center text-[10px] uppercase tracking-[0.45em] text-ink-500 mb-10">
             Trusted by forward-thinking organizations
           </div>
           <Marquee speed={28}>
@@ -140,7 +146,7 @@ export default function ConsultingPage() {
             ))}
           </Marquee>
         </div>
-      </section>
+      </Section>
 
       <CTABanner />
     </>

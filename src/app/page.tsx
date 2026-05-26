@@ -10,14 +10,14 @@ import { CTABanner } from '@/components/home/cta-banner';
 export default function HomePage() {
   return (
     <>
-      <HomeHero />
-      <AboutPreview />
-      <AchievementsGrid />
-      <GlobalImpactSection />
-      <VideoSection />
-      <QuoteSection />
-      <NewsSection />
-      <CTABanner />
+      <HomeHero />            {/* image-overlay */}
+      <AboutPreview />        {/* light */}
+      <AchievementsGrid />    {/* dark */}
+      <GlobalImpactSection /> {/* cream */}
+      <QuoteSection />        {/* image-overlay */}
+      <VideoSection />        {/* dark */}
+      <NewsSection />         {/* light */}
+      <CTABanner />           {/* image-overlay */}
     </>
   );
 }

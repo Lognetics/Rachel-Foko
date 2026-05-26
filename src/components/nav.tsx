@@ -4,16 +4,14 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { NAV } from '@/lib/content';
-import { useTheme } from './theme-provider';
 import { cn } from '@/lib/utils';
 
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -24,29 +22,52 @@ export function Nav() {
 
   useEffect(() => setOpen(false), [pathname]);
 
+  // Every page opens on a dark image-overlay hero, so at top we use light-on-dark.
+  // After scroll, glass-strong background appears and we switch to dark-on-light.
+  const onDark = !scrolled;
+
   return (
     <>
       <header
         className={cn(
           'fixed top-0 inset-x-0 z-50 transition-all duration-500',
-          scrolled ? 'py-3' : 'py-6'
+          scrolled ? 'py-3' : 'py-5'
         )}
       >
         <div
           className={cn(
             'mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-500 rounded-2xl',
-            scrolled && 'glass-strong shadow-[0_8px_40px_-12px_rgba(91,75,138,0.25)] px-4 py-2'
+            scrolled
+              ? 'bg-white/85 backdrop-blur-xl border border-white/60 shadow-[0_8px_40px_-12px_rgba(91,75,138,0.18)] px-4 py-2'
+              : 'bg-ink-950/30 backdrop-blur-md border border-white/15 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.4)] px-4 py-2'
           )}
         >
           <Link href="/" className="group relative flex items-center gap-3">
-            <div className="relative h-10 w-10 rounded-full bg-gradient-to-br from-lavender-deep via-gold-warm to-rose-dust p-[1.5px]">
-              <div className="h-full w-full rounded-full bg-[rgb(var(--bg))] flex items-center justify-center">
+            <div className="relative h-10 w-10 rounded-full bg-gradient-to-br from-rose-warm via-gold-warm to-lavender-deep p-[1.5px]">
+              <div
+                className={cn(
+                  'h-full w-full rounded-full flex items-center justify-center transition-colors duration-500',
+                  onDark ? 'bg-ink-950' : 'bg-white'
+                )}
+              >
                 <span className="font-display text-base tracking-wider gradient-text">RF</span>
               </div>
             </div>
             <div className="hidden sm:block">
-              <div className="font-display text-lg leading-none">Rachel Foko</div>
-              <div className="text-[10px] tracking-[0.25em] uppercase text-[rgb(var(--muted))] mt-1">
+              <div
+                className={cn(
+                  'font-display text-lg leading-none transition-colors duration-500',
+                  onDark ? 'text-white' : 'text-ink-950'
+                )}
+              >
+                Rachel Foko
+              </div>
+              <div
+                className={cn(
+                  'text-[10px] tracking-[0.25em] uppercase mt-1 transition-colors duration-500',
+                  onDark ? 'text-white/70' : 'text-ink-500'
+                )}
+              >
                 Visionary · Speaker · CEO
               </div>
             </div>
@@ -60,10 +81,14 @@ export function Nav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative px-3 py-2 text-sm font-medium transition-colors rounded-lg',
-                    active
-                      ? 'text-[rgb(var(--fg))]'
-                      : 'text-[rgb(var(--muted))] hover:text-[rgb(var(--fg))]'
+                    'relative px-3 py-2 text-sm font-medium transition-colors duration-300 rounded-lg',
+                    onDark
+                      ? active
+                        ? 'text-white'
+                        : 'text-white/75 hover:text-white'
+                      : active
+                        ? 'text-ink-950'
+                        : 'text-ink-500 hover:text-ink-950'
                   )}
                 >
                   {item.label}
@@ -79,25 +104,32 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={toggle}
-              aria-label="Toggle theme"
-              className="h-10 w-10 rounded-full grid place-items-center glass hover:bg-white/20 transition"
-            >
-              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
             <Link
               href="/contact"
-              className="hidden lg:inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-lavender-night to-ink-900 shimmer hover:shadow-lg hover:shadow-lavender-deep/30 transition"
+              className={cn(
+                'hidden lg:inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium shimmer transition-all duration-500',
+                onDark
+                  ? 'text-ink-950 bg-gradient-to-r from-gold-soft via-gold-warm to-gold-deep hover:shadow-lg hover:shadow-gold-warm/30'
+                  : 'text-white bg-gradient-to-r from-lavender-night via-ink-900 to-ink-950 hover:shadow-lg hover:shadow-lavender-deep/30'
+              )}
             >
               Book Rachel
             </Link>
             <button
               onClick={() => setOpen(!open)}
               aria-label="Menu"
-              className="lg:hidden h-10 w-10 rounded-full grid place-items-center glass"
+              className={cn(
+                'lg:hidden h-10 w-10 rounded-full grid place-items-center backdrop-blur border transition-colors duration-500',
+                onDark
+                  ? 'bg-white/10 border-white/20'
+                  : 'bg-white/70 border-white/60 shadow'
+              )}
             >
-              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {open ? (
+                <X className={cn('h-4 w-4 transition-colors', onDark ? 'text-white' : 'text-ink-950')} />
+              ) : (
+                <Menu className={cn('h-4 w-4 transition-colors', onDark ? 'text-white' : 'text-ink-950')} />
+              )}
             </button>
           </div>
         </div>
@@ -111,13 +143,13 @@ export function Nav() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 lg:hidden"
           >
-            <div className="absolute inset-0 bg-[rgb(var(--bg))]/90 backdrop-blur-xl" />
+            <div className="absolute inset-0 bg-white/95 backdrop-blur-xl" />
             <motion.nav
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-x-4 top-24 rounded-2xl glass-strong p-6"
+              className="absolute inset-x-4 top-24 rounded-2xl bg-white border border-blush-soft shadow-xl p-6"
             >
               <div className="flex flex-col gap-2">
                 {NAV.map((item, i) => (
@@ -132,8 +164,8 @@ export function Nav() {
                       className={cn(
                         'block px-4 py-3 rounded-xl text-base font-medium transition',
                         pathname === item.href
-                          ? 'bg-white/40 dark:bg-white/5 text-[rgb(var(--fg))]'
-                          : 'text-[rgb(var(--muted))] hover:bg-white/30 dark:hover:bg-white/5'
+                          ? 'bg-blush-soft text-ink-950'
+                          : 'text-ink-700 hover:bg-cream-200'
                       )}
                     >
                       {item.label}
